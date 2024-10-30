@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Homework 1: Tasks for hh280</title>
+</head>
+
+<body>
+<h1>Homework 1: Tasks for hh280</h1>
+
+<p>Your personal task is to develop a system for radio companies and their stations.</p>
+
+<h2>Task 1: Configuration [4 marks]</h2>
+<p>Configure the project to support the use of JSPs as view technology. JSPs must be configured to be placed inside folder <code>src/main/webapp/WEB-INF/views/</code>.</p>
+
+<h2>Task 2: Domain Classes [13 marks]</h2>
+
+<p>Create class <code>co2103.hw1.domain.Station</code>. With the following private fields:
+<ol>
+  <li><code>String host</code></li>
+  <li><code>String producer</code></li>
+  <li><code>String genre</code></li>
+  <li><code>int frequency</code></li>
+</ol>
+Generate necessary getters and setters. [7 marks]
+</p>
+
+<p>Create class <code>co2103.hw1.domain.Radio</code>. With the following private fields:
+<ol>
+  <li><code>int id</code></li>
+  <li><code>String name</code></li>
+  <li><code>String format</code></li>
+  <li><code>List&lt;Station&gt; stations</code></li>
+</ol>
+Generate necessary getters and setters. [6 marks]
+</p>
+
+
+<h2>Task 3: Controller (simple) [5 marks]</h2>
+<p>Create controller <code>co2103.hw1.controller.MainController</code> [2 marks].
+<ol>
+  <li>Requests for URL <code>"/"</code> (POST and GET) should show the view <code>start</code> (the corresponding JSP already exists). [3 marks]</li>
+</ol>
+</p>
+
+<h2>Task 4: Controller, View, and Form [20 marks]</h2>
+
+<p>Create field <code>public static List&lt;Radio&gt; radios</code> in class <code>co2103.hw1.Hw1Application</code>. Initialize the list inside class <code>co2103.hw1.Hw1Application</code> to contain one radio with two stations. [4 marks]</p>
+
+<p>Create controller <code>co2103.hw1.controller.RadioController</code> and add methods with request mappings for the following behavior:
+<ol>
+  <li>GET requests for URL <code>"/radios"</code> should show view <code>radios/list</code>. [2 marks]
+    <ul>
+      <li>Add the list of all radios from <code>co2103.hw1.Hw1Application</code> to the model as attribute <code>radios</code>. [2 marks]</li>
+      <li>Create the corresponding JSP to list the name and format of each radio followed by a link to URL <code>"/stations?radio={id of radio}"</code>, e.g., <code>"/stations?radio=3"</code>. [4 marks]</li>
+    </ul>
+  </li>
+  <li>Requests for URL <code>"/newRadio"</code> should show view <code>radios/form</code>. [3 marks] Create the corresponding JSP with a form with <code>modelAttribute="radio"</code> and <code>action="/addRadio"</code> and inputs for all fields of class <code>Radio</code> except for <code>stations</code>. [5 marks]</li>
+  <li>POST requests for URL <code>"/addRadio"</code> should add a new radio to the list of all radios in <code>co2103.hw1.Hw1Application</code> and redirect to <code>/radios</code>. [3 marks]</li>
+</ol>
+</p>
+
+<h2>Task 5: Controller, View, and Form with additional Parameter [33 marks]</h2>
+
+<p>Create controller <code>co2103.hw1.controller.StationController</code> and add methods with request mappings for the following behavior:
+<ol>
+  <li>GET requests for URL <code>"/stations"</code> should show view <code>stations/list</code>. [2 marks]
+    <ul>
+      <li>Based on request parameter <code>radio</code> determine the corresponding radio from <code>co2103.hw1.Hw1Application</code>. [2 marks]</li>
+      <li>Add the list of all stations of that radio to the model as attribute <code>stations</code>. [2 marks]</li>
+      <li>Create the corresponding JSP for the view to list the host, producer, genre, and frequency of each station. [4 marks]</li>
+      <li>At the end of the list in the JSP add a link to URL <code>"/newStation?radio={id of radio whose stations are listed}"</code>, e.g., <code>"/newStation?radio=3"</code>. [4 marks]</li>
+    </ul>
+  </li>
+  <li>Requests for URL <code>"/newStation"</code> should show view <code>stations/form</code>. [3 marks]
+    <ul>
+      <li>Create the corresponding JSP with a form with <code>modelAttribute="station"</code> and <code>action="/addStation"</code> and inputs for all fields of class <code>Station</code>. [6 marks]</li>
+      <li>Also add the request parameter <code>radio</code> with the ID of the current radio. [4 marks]</li>
+    </ul>
+  </li>
+  <li>POST requests for URL <code>"/addStation"</code> should add a new station to the list of stations of the radio identified by request parameter <code>radio</code> and then redirect to <code>/radios</code>. [6 marks]</li>
+</ol>
+</p>
+
+<h2>Task 6: Validation [25 marks]</h2>
+
+<p>Set up a validator for class <code>Radio</code> and make it available in controller <code>RadioController</code>. [4 marks]</p>
+<p>When adding a new radio validate that
+  <ol>
+    <li>The value of field <code>id</code> is unique within the list <code>Hw1Application.radios</code>. [3 marks]</li>
+    <li>The value of field <code>name</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>format</code> is not empty. [2 marks]</li>
+  </ol>
+  In case of validation errors go back to the form and show error messages for each field in the form.
+</p>
+
+
+<p>Set up a validator for class <code>Station</code> and make it available in controller <code>StationController</code>. [4 marks]</p>
+<p>When adding a new station validate that
+  <ol>
+    <li>The value of field <code>host</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>producer</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>genre</code> is either <code>"Pop music"</code>, <code>"Rock music"</code>, or <code>"Classical music"</code>. [3 marks]</li>
+    <li>The value of field <code>frequency</code> is between (including) 90 and 130. [3 marks]</li>
+  </ol>
+  In case of validation errors go back to the form and show error messages for each field in the form.
+</p>
+
+</body>
+
+</html>
